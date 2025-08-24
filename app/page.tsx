@@ -69,8 +69,8 @@ const styles: Record<string, React.CSSProperties> = {
   thumbWrap: {
     position: "relative",
     background: "#000",
-    // Use consistent 1:1 aspect ratio for all providers
-    paddingTop: "100%",
+    // 9:16 aspect ratio for Instagram Reel / YouTube Short format
+    paddingTop: "177.78%", // 16/9 = 1.7778, so 177.78%
   },
   thumbImg: {
     position: "absolute" as const,
@@ -326,13 +326,13 @@ const InlineInstagramEmbed: React.FC<{ permalink: string }> = ({ permalink }) =>
     <div style={{ 
       position: "relative", 
       width: "100%", 
-      paddingTop: "100%", // 1:1 aspect ratio (square)
+      paddingTop: "177.78%", // 9:16 aspect ratio for reels/shorts
       overflow: "hidden", 
       borderTopLeftRadius: 14, 
       borderTopRightRadius: 14,
       background: "#000"
     }}>
-      <iframe
+                    <iframe
         src={`${permalink.replace(/\/$/, "")}/embed`}
         title="Instagram embed"
         style={{ 
