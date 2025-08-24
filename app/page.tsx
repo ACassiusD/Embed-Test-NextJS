@@ -499,20 +499,18 @@ const ThirdPartyEmbed: React.FC<{ clip: Clip; autoplay?: boolean }> = ({ clip, a
 
     if (clip.provider === "instagram" && clip.instagram) {
       const { permalink } = clip.instagram;
-      const bq = document.createElement("blockquote");
-      bq.className = "instagram-media";
-      bq.setAttribute("data-instgrm-permalink", permalink);
-      bq.setAttribute("data-instgrm-version", "14");
-      el.appendChild(bq);
-
-      loadScriptOnce("https://www.instagram.com/embed.js", "instgrm")
-        .then(() => {
-          const G = getG();
-          if (G.instgrm?.Embeds?.process) {
-            G.instgrm.Embeds.process();
-          }
-        })
-        .catch(() => {});
+      
+      // Use direct iframe approach for consistent behavior
+      const iframe = document.createElement("iframe");
+      iframe.src = `${permalink.replace(/\/$/, "")}/embed`;
+      iframe.title = "Instagram post";
+      iframe.style.border = "0";
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.allow = "clipboard-write; encrypted-media; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      
+      el.appendChild(iframe);
       return;
     }
 
@@ -527,41 +525,7 @@ const ThirdPartyEmbed: React.FC<{ clip: Clip; autoplay?: boolean }> = ({ clip, a
   return <div style={styles.embedMount} ref={mountRef} />;
 };
 
-// Inline Instagram embed (for grid) - use aspect ratio container approach
-const InlineInstagramEmbed: React.FC<{ permalink: string }> = ({ permalink }) => {
-  // Use the aspect ratio approach from the blog post
-  // This creates a responsive container that maintains proportions
-  return (
-    <div style={{ 
-      position: "relative", 
-      width: "100%", 
-      paddingTop: "177.78%", // 9:16 aspect ratio for reels/shorts
-      overflow: "hidden", 
-      borderTopLeftRadius: 14, 
-      borderTopRightRadius: 14,
-      background: "#000"
-    }}>
-                    <iframe
-        src={`${permalink.replace(/\/$/, "")}/embed`}
-        title="Instagram embed"
-        style={{ 
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%", 
-          height: "100%", 
-          border: 0, 
-          borderTopLeftRadius: 14, 
-          borderTopRightRadius: 14
-        }}
-        allow="clipboard-write; encrypted-media; picture-in-picture"
-        referrerPolicy="strict-origin-when-cross-origin"
-        scrolling="no"
-        allowFullScreen
-      />
-    </div>
-  );
-};
+
 
 // --- Modal ---
 const PlayerModal: React.FC<{
@@ -691,11 +655,37 @@ export default function Page() {
 
         <section style={styles.grid}>
           {filtered.map((clip) => {
-            // Instagram: embed inline (no thumbnail/modal)
+            // Instagram: show actual embed content in grid + clickable for popup
             if (clip.provider === "instagram" && clip.instagram) {
               return (
-                <article key={clip.id} style={styles.card}>
-                  <InlineInstagramEmbed permalink={clip.instagram.permalink} />
+                <article 
+                  key={clip.id} 
+                  style={{ ...styles.card, ...styles.clickable }}
+                  onClick={() => setOpenClip(clip)}
+                >
+                  <div style={styles.thumbWrap}>
+                    <iframe
+                      src={`${clip.instagram.permalink.replace(/\/$/, "")}/embed`}
+                      title="Instagram embed"
+                      style={{ 
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%", 
+                        height: "100%", 
+                        border: 0, 
+                        borderTopLeftRadius: 14, 
+                        borderTopRightRadius: 14
+                      }}
+                      allow="clipboard-write; encrypted-media; picture-in-picture"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      scrolling="no"
+                      allowFullScreen
+                    />
+                    <div style={styles.thumbOverlay}>
+                      <div style={styles.playBadge}>Play</div>
+                    </div>
+                  </div>
                   <div style={styles.meta}>
                     <div style={{ fontWeight: 600, color: "#e8e8ea" }}>{clip.title || "Untitled"}</div>
                     <div style={{ opacity: 0.85, marginTop: 4 }}>instagram · {clip.folder}</div>
