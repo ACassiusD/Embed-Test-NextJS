@@ -482,15 +482,18 @@ const ThirdPartyEmbed: React.FC<{ clip: Clip; autoplay?: boolean }> = ({ clip, a
 
     if (clip.provider === "tiktok" && clip.tiktok) {
       const { videoId, citeUrl } = clip.tiktok;
-      const bq = document.createElement("blockquote");
-      bq.className = "tiktok-embed";
-      bq.setAttribute("data-video-id", videoId);
-      bq.setAttribute("cite", citeUrl || `https://www.tiktok.com/@_/video/${videoId}`);
-      const section = document.createElement("section");
-      bq.appendChild(section);
-      el.appendChild(bq);
-
-      loadScriptOnce("https://www.tiktok.com/embed.js").catch(() => {});
+      
+      // Use TikTok's embed URL format that's designed for iframes
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.tiktok.com/embed/${videoId}`;
+      iframe.title = "TikTok video";
+      iframe.style.border = "0";
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      
+      el.appendChild(iframe);
       return;
     }
 
@@ -512,6 +515,13 @@ const ThirdPartyEmbed: React.FC<{ clip: Clip; autoplay?: boolean }> = ({ clip, a
         .catch(() => {});
       return;
     }
+
+    // Cleanup function to remove any leftover embeds when component unmounts or clip changes
+    return () => {
+      if (el) {
+        el.innerHTML = "";
+      }
+    };
   }, [clip, autoplay]);
 
   return <div style={styles.embedMount} ref={mountRef} />;
