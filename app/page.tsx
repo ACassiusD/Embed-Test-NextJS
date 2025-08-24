@@ -126,7 +126,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   modalVideoWrap: {
     position: "relative" as const,
-    paddingTop: "56.25%", // 16:9 aspect ratio for video content
+    paddingTop: "177.78%", // 9:16 aspect ratio to match thumbnails
     background: "#000",
   },
   modalClose: {
@@ -168,31 +168,230 @@ type Clip = {
 
 // --- Sample data (replace with your own) ---
 const initialClips: Clip[] = [
+  // Instagram Posts
   {
-    id: "yt1",
-    provider: "youtube",
+    id: "ig1",
+    provider: "instagram",
     folder: "Cooking",
-    title: "Knife Skills",
-    youtube: { videoId: "LV3mChwupF8" },
+    title: "Cooking Inspiration",
+    instagram: { permalink: "https://www.instagram.com/p/DBoro_cyXas/" },
   },
+  {
+    id: "ig2",
+    provider: "instagram",
+    folder: "Cooking",
+    title: "Recipe Ideas",
+    instagram: { permalink: "https://www.instagram.com/p/DDvC7LMoDCN/" },
+  },
+  {
+    id: "ig3",
+    provider: "instagram",
+    folder: "Cooking",
+    title: "Food Photography",
+    instagram: { permalink: "https://www.instagram.com/p/DLqJ2FZIZbp/" },
+  },
+  {
+    id: "ig4",
+    provider: "instagram",
+    folder: "Cooking",
+    title: "Culinary Tips",
+    instagram: { permalink: "https://www.instagram.com/p/DB3rENOSiCO/" },
+  },
+  {
+    id: "ig5",
+    provider: "instagram",
+    folder: "Cooking",
+    title: "Kitchen Hacks",
+    instagram: { permalink: "https://www.instagram.com/p/DF2xsnEy-l6/" },
+  },
+  {
+    id: "ig6",
+    provider: "instagram",
+    folder: "Cooking",
+    title: "Chef Secrets",
+    instagram: { permalink: "https://www.instagram.com/p/DFlDvYQM8G_/" },
+  },
+  {
+    id: "ig7",
+    provider: "instagram",
+    folder: "Cooking",
+    title: "Cooking Techniques",
+    instagram: { permalink: "https://www.instagram.com/p/DIOdhZUSyX-/" },
+  },
+  {
+    id: "ig8",
+    provider: "instagram",
+    folder: "Cooking",
+    title: "Food Art",
+    instagram: { permalink: "https://www.instagram.com/p/DLkk4_AvwFH/" },
+  },
+  {
+    id: "ig9",
+    provider: "instagram",
+    folder: "Cooking",
+    title: "Recipe Collection",
+    instagram: { permalink: "https://www.instagram.com/p/DMZnXPJzDhD/" },
+  },
+  {
+    id: "ig10",
+    provider: "instagram",
+    folder: "Cooking",
+    title: "Cooking Inspiration",
+    instagram: { permalink: "https://www.instagram.com/p/DG0lAPYphh5/" },
+  },
+
+  // TikTok Videos
   {
     id: "tt1",
     provider: "tiktok",
     folder: "Cooking",
-    title: "Maja's Recipes",
+    title: "Tagesrezept Cooking",
     tiktok: {
-      videoId: "7498864456584285445",
-      citeUrl: "https://www.tiktok.com/@majasrecipes/video/7498864456584285445",
+      videoId: "7460528404337610006",
+      citeUrl: "https://www.tiktok.com/@tagesrezept/video/7460528404337610006",
     },
-    // If omitted, we'll auto-fetch via TikTok oEmbed
-    // thumbUrl: "https://.../tiktok-thumb.jpg",
   },
   {
-    id: "ig1",
-    provider: "instagram",
-    folder: "Fashion",
-    title: "Outfit inspo",
-    instagram: { permalink: "https://www.instagram.com/p/DI66ERaTsm8/" },
+    id: "tt2",
+    provider: "tiktok",
+    folder: "Cooking",
+    title: "Chef Bae Recipes",
+    tiktok: {
+      videoId: "7453149126176394528",
+      citeUrl: "https://www.tiktok.com/@chef_baeee/video/7453149126176394528",
+    },
+  },
+  {
+    id: "tt3",
+    provider: "tiktok",
+    folder: "Cooking",
+    title: "Kenny's Cooking",
+    tiktok: {
+      videoId: "7413528717877595397",
+      citeUrl: "https://www.tiktok.com/@kennylsong/video/7413528717877595397",
+    },
+  },
+  {
+    id: "tt4",
+    provider: "tiktok",
+    folder: "Cooking",
+    title: "Cook with Ay",
+    tiktok: {
+      videoId: "7223345377905331483",
+      citeUrl: "https://www.tiktok.com/@cookwithay/video/7223345377905331483",
+    },
+  },
+  {
+    id: "tt5",
+    provider: "tiktok",
+    folder: "Cooking",
+    title: "Very Hungry Greek",
+    tiktok: {
+      videoId: "7398241206515322144",
+      citeUrl: "https://www.tiktok.com/@veryhungrygreek/video/7398241206515322144",
+    },
+  },
+  {
+    id: "tt6",
+    provider: "tiktok",
+    folder: "Cooking",
+    title: "Foodie Randy",
+    tiktok: {
+      videoId: "7488046268854455558",
+      citeUrl: "https://www.tiktok.com/@foodierandy/video/7488046268854455558",
+    },
+  },
+  {
+    id: "tt7",
+    provider: "tiktok",
+    folder: "Cooking",
+    title: "Connie Cooks",
+    tiktok: {
+      videoId: "7524908918082948358",
+      citeUrl: "https://www.tiktok.com/@conniecooks/video/7524908918082948358",
+    },
+  },
+  {
+    id: "tt8",
+    provider: "tiktok",
+    folder: "Cooking",
+    title: "Baking Fey",
+    tiktok: {
+      videoId: "7480967376327003414",
+      citeUrl: "https://www.tiktok.com/@bakingfey/video/7480967376327003414?q=cooking&t=1756074406244",
+    },
+  },
+
+  // YouTube Videos
+  {
+    id: "yt1",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Bayashi TV Cooking",
+    youtube: { videoId: "IHDX1eVP-_Q" },
+  },
+  {
+    id: "yt2",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Owen Han Recipes",
+    youtube: { videoId: "qFlw0h2-bDI" },
+  },
+  {
+    id: "yt3",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Home Chef Geoff",
+    youtube: { videoId: "xH8RaNpM854" },
+  },
+  {
+    id: "yt4",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Yumekenguru Cooking",
+    youtube: { videoId: "0lOM9PwLmHI" },
+  },
+  {
+    id: "yt5",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Sara - Nutrient Matters",
+    youtube: { videoId: "prdBJIuj6LI" },
+  },
+  {
+    id: "yt6",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Food with Bear Hands",
+    youtube: { videoId: "RZ1614pRkxI" },
+  },
+  {
+    id: "yt7",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Home Chef Geoff Tips",
+    youtube: { videoId: "jp_5tJo4zCw" },
+  },
+  {
+    id: "yt8",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Sam Eats",
+    youtube: { videoId: "3qlzEI-mrRk" },
+  },
+  {
+    id: "yt9",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Fork the People",
+    youtube: { videoId: "STE6LZAXPU8" },
+  },
+  {
+    id: "yt10",
+    provider: "youtube",
+    folder: "Cooking",
+    title: "Cooking Shorts",
+    youtube: { videoId: "vZk-nsUJoEM" },
   },
 ];
 
@@ -390,7 +589,15 @@ export default function Page() {
   // runtime thumbs discovered via oEmbed
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
 
-  const clips = useMemo(() => initialClips, []);
+  const clips = useMemo(() => {
+    // Shuffle the clips array for random display order
+    const shuffled = [...initialClips];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }, []);
 
   // Try to auto-populate TikTok thumbnails
   useEffect(() => {
