@@ -590,10 +590,13 @@ export default function Page() {
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
 
   const clips = useMemo(() => {
-    // Shuffle the clips array for random display order
+    // Use a seeded shuffle to ensure consistent order between server and client
     const shuffled = [...initialClips];
+    let seed = 42; // Fixed seed for consistent randomization
+    
     for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      seed = (seed * 9301 + 49297) % 233280; // Simple PRNG
+      const j = seed % (i + 1);
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
